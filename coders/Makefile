@@ -1,10 +1,8 @@
-NAME = libft
+NAME = codexion
 
-LIB = ar rcs
+CFLAGS = -Wall -Wextra -Werror -pthread
 
-CFLAGS = -Wall -Werror -Wextra
-
-CC = gcc
+CC = cc
 
 RM = rm -f
 
@@ -15,6 +13,8 @@ STRONG_PINK = \033[38;5;204m
 LILAC = \033[38;5;141m
 
 RESET = \033[0m
+
+HEADER = includes/codexion.h
 
 SRC = srcs/auxiliary_libft/ft_atoi.c \
       srcs/auxiliary_libft/ft_bzero.c \
@@ -35,22 +35,18 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME) kitty
 
 $(NAME): $(OBJ)
-	@echo "$(PASTEL_PINK)creating $(STRONG_PINK)libft..."
-	@$(LIB) $(NAME) $(OBJ)
+	@echo "$(PASTEL_PINK)creating $(STRONG_PINK)$(NAME)..."
+	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 
-codexion: $(OBJ)
-	@echo "$(PASTEL_PINK)creating $(STRONG_PINK)codexion..."
-	@$(CC) $(CFLAGS) $(OBJ) -o codexion
-
-srcs/auxiliary_libft/%.o: srcs/auxiliary_libft/%.c
+srcs/auxiliary_libft/%.o: srcs/auxiliary_libft/%.c $(HEADER)
 	@echo "$(PASTEL_PINK)compiling $(STRONG_PINK)$<..."
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-srcs/parcing/%.o: srcs/parcing/%.c
+srcs/parcing/%.o: srcs/parcing/%.c $(HEADER)
 	@echo "$(PASTEL_PINK)compiling $(STRONG_PINK)$<..."
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-srcs/%.o: srcs/%.c
+srcs/%.o: srcs/%.c $(HEADER)
 	@echo "$(PASTEL_PINK)compiling $(STRONG_PINK)$<..."
 	@$(CC) $(CFLAGS) -c $< -o $@
 
@@ -68,9 +64,8 @@ clean_kitty:
 	@echo "$(STRONG_PINK)   >🗑️ <                        > 🗑️ < $(RESET)"
 
 fclean: fclean_kitty
-	@make clean  > /dev/null 2>&1
+	@$(MAKE) clean > /dev/null 2>&1
 	@$(RM) $(NAME)
-	@$(RM) codexion
 
 fclean_kitty:
 	@echo "$(STRONG_PINK)  /\_/\                             /\_/\ $(RESET)"
@@ -79,4 +74,4 @@ fclean_kitty:
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re kitty clean_kitty fclean_kitty
