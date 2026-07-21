@@ -3,6 +3,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+# include <limits.h>
 
 /* Errores */
 
@@ -74,7 +75,8 @@ typedef struct s_sim
 	int			stop;
 }	t_sim;
 
-int		ft_atoi(const char *str);
+int		ft_atoi(const char *str, int *out);
+int		ft_atoll(const char *str, long long *out);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
 int		ft_validnumber(const char *str);
@@ -90,6 +92,6 @@ t_error	ft_is_valid_positive(const char *str);
 t_error	ft_is_valid_non_negative(const char *str);
 t_error	ft_is_valid_scheduler(const char *str);
 void	print_error(t_error code);
-int		parse_args(int argc, char **argv);
+int		parse_args(int argc, char **argv, t_config *cfg);
 
 #endif

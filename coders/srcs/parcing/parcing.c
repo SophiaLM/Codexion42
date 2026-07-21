@@ -32,7 +32,30 @@ t_error	check_numeric_args(char **argv)
 	return (ERR_OK);
 }
 
-int	parse_args(int argc, char **argv)
+static t_error	fill_config(char **argv, t_config *cfg)
+{
+	if (ft_atoi(argv[1], &cfg->number_of_coders) == -1)
+		return (ERR_OVERFLOW);
+	if (ft_atoll(argv[2], &cfg->time_to_burnout) == -1)
+		return (ERR_OVERFLOW);
+	if (ft_atoll(argv[3], &cfg->time_to_compile) == -1)
+		return (ERR_OVERFLOW);
+	if (ft_atoll(argv[4], &cfg->time_to_debug) == -1)
+		return (ERR_OVERFLOW);
+	if (ft_atoll(argv[5], &cfg->time_to_refactor) == -1)
+		return (ERR_OVERFLOW);
+	if (ft_atoi(argv[6], &cfg->number_of_compiles_required) == -1)
+		return (ERR_OVERFLOW);
+	if (ft_atoll(argv[7], &cfg->dongle_cooldown) == -1)
+		return (ERR_OVERFLOW);
+	if (ft_strncmp(argv[8], "fifo", 4) == 0)
+		cfg->scheduler = SCHEDULER_FIFO;
+	else if (ft_strncmp(argv[8], "edf", 3) == 0)
+		cfg->scheduler = SCHEDULER_EDF;
+	return (ERR_OK);
+}
+
+int	parse_args(int argc, char **argv, t_config *cfg)
 {
 	t_error	err;
 
@@ -51,6 +74,11 @@ int	parse_args(int argc, char **argv)
 	if (err != ERR_OK)
 	{
 		print_error(err);
+		return (0);
+	}
+	if (fill_config(argv, cfg) != ERR_OK)
+	{
+		print_error(ERR_OVERFLOW);
 		return (0);
 	}
 	return (1);

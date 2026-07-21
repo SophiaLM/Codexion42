@@ -2,7 +2,9 @@
 
 int	main(int argc, char **argv)
 {
-	if (parse_args(argc, argv))
+	t_config	cfg;
+
+	if (parse_args(argc, argv, &cfg))
 		ft_putendl("ok");
 	return (0);
 }

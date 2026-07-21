@@ -17,6 +17,7 @@ RESET = \033[0m
 HEADER = includes/codexion.h
 
 SRC = srcs/auxiliary_libft/ft_atoi.c \
+      srcs/auxiliary_libft/ft_atoll.c \
       srcs/auxiliary_libft/ft_bzero.c \
       srcs/auxiliary_libft/ft_calloc.c \
       srcs/auxiliary_libft/ft_validnumber.c \
