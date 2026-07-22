@@ -4,9 +4,9 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <limits.h>
+# include "queue.h"
 
 /* Errores */
-
 typedef enum e_error
 {
 	ERR_OK = 0,
@@ -19,7 +19,6 @@ typedef enum e_error
 }	t_error;
 
 /* scheduler */
-
 typedef enum e_scheduler
 {
 	SCHEDULER_FIFO,
@@ -27,7 +26,6 @@ typedef enum e_scheduler
 }	t_scheduler;
 
 /* Los 8 argumentos validados */
-
 typedef struct s_config
 {
 	int			number_of_coders;
@@ -40,9 +38,8 @@ typedef struct s_config
 	t_scheduler	scheduler;
 }	t_config;
 
-/* mutex, variable de condición, estado (libre/ocupado), * 
- * timestamp `available_at` (para el cooldown), heap de peticiones*/
-
+/* mutex, variable de condicion, estado (libre/ocupado), *
+ * timestamp available_at (para el cooldown), heap de peticiones */
 typedef struct s_dongle
 {
 	int			id;
@@ -50,22 +47,19 @@ typedef struct s_dongle
 	long long	available_at_ms;
 }	t_dongle;
 
-/* id, handle del hilo, `last_compile_start`, `compile_count` */
-
+/* id, handle del hilo, last_compile_start, compile_count */
 typedef struct s_coder
 {
-	int			id;
-	long long	last_compile_start;
-	int			compile_count;
-	t_dongle	*first;
-	t_dongle	*second;
+	int				id;
+	long long		last_compile_start;
+	int				compile_count;
+	t_dongle		*first;
+	t_dongle		*second;
 	struct s_sim	*sim;
 }	t_coder;
 
-
-/* configuración, hora de inicio, array de coders, array de dongles, *
- *  flag de parada + su mutex, mutex de impresión, hilo monitor. */
-
+/* configuracion, hora de inicio, array de coders, array de dongles, *
+ * flag de parada + su mutex, mutex de impresion, hilo monitor. */
 typedef struct s_sim
 {
 	t_config	config;
@@ -82,8 +76,11 @@ void	*ft_calloc(size_t nmemb, size_t size);
 int		ft_validnumber(const char *str);
 void	*ft_memset(void *dest, int c, size_t count);
 void	ft_putchar(char c);
+void	ft_putchar_fd(char c, int fd);
 void	ft_putendl(const char *str);
+void	ft_putendl_fd(const char *str, int fd);
 void	ft_putstr(const char *str);
+void	ft_putstr_fd(const char *str, int fd);
 size_t	ft_strlen(const char *str);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 

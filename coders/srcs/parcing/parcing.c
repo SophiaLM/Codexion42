@@ -10,7 +10,7 @@ void	print_error(t_error code)
 	msgs[ERR_ZERO] = "Error: el valor no puede ser cero";
 	msgs[ERR_NEGATIVE] = "Error: el valor no puede ser negativo";
 	msgs[ERR_SCHEDULER] = "Error: scheduler debe ser 'fifo' o 'edf'";
-	ft_putendl(msgs[code]);
+	ft_putendl_fd(msgs[code], 2);
 }
 
 t_error	check_numeric_args(char **argv)

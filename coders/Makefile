@@ -23,12 +23,19 @@ SRC = srcs/auxiliary_libft/ft_atoi.c \
       srcs/auxiliary_libft/ft_validnumber.c \
       srcs/auxiliary_libft/ft_memset.c \
       srcs/auxiliary_libft/ft_putchar.c \
+      srcs/auxiliary_libft/ft_putchar_fd.c \
       srcs/auxiliary_libft/ft_putendl.c \
+      srcs/auxiliary_libft/ft_putendl_fd.c \
       srcs/auxiliary_libft/ft_putstr.c \
+      srcs/auxiliary_libft/ft_putstr_fd.c \
       srcs/auxiliary_libft/ft_strlen.c \
       srcs/auxiliary_libft/ft_strncmp.c \
       srcs/parcing/parcing.c \
       srcs/parcing/parching_utils.c \
+      srcs/queue/queue_init.c \
+      srcs/queue/queue_utils.c \
+      srcs/queue/queue_push.c \
+      srcs/queue/queue_pop.c \
       srcs/codexion.c
 
 OBJ = $(SRC:.c=.o)
@@ -44,6 +51,10 @@ srcs/auxiliary_libft/%.o: srcs/auxiliary_libft/%.c $(HEADER)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 srcs/parcing/%.o: srcs/parcing/%.c $(HEADER)
+	@echo "$(PASTEL_PINK)compiling $(STRONG_PINK)$<..."
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+srcs/queue/%.o: srcs/queue/%.c $(HEADER)
 	@echo "$(PASTEL_PINK)compiling $(STRONG_PINK)$<..."
 	@$(CC) $(CFLAGS) -c $< -o $@
 
