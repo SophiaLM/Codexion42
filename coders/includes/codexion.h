@@ -5,6 +5,11 @@
 # include <unistd.h>
 # include <limits.h>
 # include "queue.h"
+# include <pthread.h>
+# include <sys/time.h>
+
+# define SLEEP_STEP_US 200
+# define BURNOUT_TOLERANCE_MS 10
 
 /* Errores */
 typedef enum e_error
@@ -66,7 +71,8 @@ typedef struct s_sim
 	long long	start_time_ms;
 	t_coder		*coders;
 	t_dongle	*dongles;
-	int			stop;
+	int				stop;
+	pthread_mutex_t	print_mutex;
 }	t_sim;
 
 int		ft_atoi(const char *str, int *out);
@@ -74,13 +80,13 @@ int		ft_atoll(const char *str, long long *out);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
 int		ft_validnumber(const char *str);
-void	*ft_memset(void *dest, int c, size_t count);
 void	ft_putchar(char c);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putendl(const char *str);
 void	ft_putendl_fd(const char *str, int fd);
 void	ft_putstr(const char *str);
 void	ft_putstr_fd(const char *str, int fd);
+void	ft_putnbr(long long n);
 size_t	ft_strlen(const char *str);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
@@ -91,4 +97,10 @@ t_error	ft_is_valid_scheduler(const char *str);
 void	print_error(t_error code);
 int		parse_args(int argc, char **argv, t_config *cfg);
 
+long long	now_ms(void);
+long long	elapsed_ms(t_sim *sim);
+void		smart_sleep(long long duration_ms, t_sim *sim);
+int			sim_stopped(t_sim *sim);
+void		sim_stop(t_sim *sim);
+void		log_state(t_sim *sim, int coder_id, const char *msg);
 #endif

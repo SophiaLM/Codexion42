@@ -21,13 +21,13 @@ SRC = srcs/auxiliary_libft/ft_atoi.c \
       srcs/auxiliary_libft/ft_bzero.c \
       srcs/auxiliary_libft/ft_calloc.c \
       srcs/auxiliary_libft/ft_validnumber.c \
-      srcs/auxiliary_libft/ft_memset.c \
       srcs/auxiliary_libft/ft_putchar.c \
       srcs/auxiliary_libft/ft_putchar_fd.c \
       srcs/auxiliary_libft/ft_putendl.c \
       srcs/auxiliary_libft/ft_putendl_fd.c \
       srcs/auxiliary_libft/ft_putstr.c \
       srcs/auxiliary_libft/ft_putstr_fd.c \
+      srcs/auxiliary_libft/ft_putnbr.c \
       srcs/auxiliary_libft/ft_strlen.c \
       srcs/auxiliary_libft/ft_strncmp.c \
       srcs/parcing/parcing.c \
