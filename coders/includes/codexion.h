@@ -1,13 +1,11 @@
 #ifndef CODEXION_H
 # define CODEXION_H
-
 # include <stdlib.h>
 # include <unistd.h>
 # include <limits.h>
 # include "queue.h"
 # include <pthread.h>
 # include <sys/time.h>
-
 # define SLEEP_STEP_US 200
 # define BURNOUT_TOLERANCE_MS 10
 
@@ -56,6 +54,8 @@ typedef struct s_dongle
 typedef struct s_coder
 {
 	int				id;
+	pthread_t		thread;
+	pthread_mutex_t	state_mutex;
 	long long		last_compile_start;
 	int				compile_count;
 	t_dongle		*first;
@@ -67,40 +67,48 @@ typedef struct s_coder
  * flag de parada + su mutex, mutex de impresion, hilo monitor. */
 typedef struct s_sim
 {
-	t_config	config;
-	long long	start_time_ms;
-	t_coder		*coders;
-	t_dongle	*dongles;
+	t_config		config;
+	long long		start_time_ms;
+	t_coder			*coders;
+	t_dongle		*dongles;
 	int				stop;
+	/* NUNCA sostener este mutex al llamar a log_state() — ver dia 5 */
+	pthread_mutex_t	stop_mutex;
 	pthread_mutex_t	print_mutex;
 }	t_sim;
 
-int		ft_atoi(const char *str, int *out);
-int		ft_atoll(const char *str, long long *out);
-void	ft_bzero(void *s, size_t n);
-void	*ft_calloc(size_t nmemb, size_t size);
-int		ft_validnumber(const char *str);
-void	ft_putchar(char c);
-void	ft_putchar_fd(char c, int fd);
-void	ft_putendl(const char *str);
-void	ft_putendl_fd(const char *str, int fd);
-void	ft_putstr(const char *str);
-void	ft_putstr_fd(const char *str, int fd);
-void	ft_putnbr(long long n);
-size_t	ft_strlen(const char *str);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-
-t_error	ft_check_overflow(const char *str);
-t_error	ft_is_valid_positive(const char *str);
-t_error	ft_is_valid_non_negative(const char *str);
-t_error	ft_is_valid_scheduler(const char *str);
-void	print_error(t_error code);
-int		parse_args(int argc, char **argv, t_config *cfg);
-
+int			ft_atoi(const char *str, int *out);
+int			ft_atoll(const char *str, long long *out);
+void		ft_bzero(void *s, size_t n);
+void		*ft_calloc(size_t nmemb, size_t size);
+int			ft_validnumber(const char *str);
+void		ft_putchar(char c);
+void		ft_putchar_fd(char c, int fd);
+void		ft_putendl(const char *str);
+void		ft_putendl_fd(const char *str, int fd);
+void		ft_putstr(const char *str);
+void		ft_putstr_fd(const char *str, int fd);
+void		ft_putnbr(long long n);
+size_t		ft_strlen(const char *str);
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
+t_error		ft_check_overflow(const char *str);
+t_error		ft_is_valid_positive(const char *str);
+t_error		ft_is_valid_non_negative(const char *str);
+t_error		ft_is_valid_scheduler(const char *str);
+void		print_error(t_error code);
+int			parse_args(int argc, char **argv, t_config *cfg);
 long long	now_ms(void);
 long long	elapsed_ms(t_sim *sim);
 void		smart_sleep(long long duration_ms, t_sim *sim);
 int			sim_stopped(t_sim *sim);
 void		sim_stop(t_sim *sim);
 void		log_state(t_sim *sim, int coder_id, const char *msg);
+void		take_dongles_fake(t_coder *me);
+void		release_dongles_fake(t_coder *me);
+void		set_compile_start(t_coder *me);
+void		*coder_routine(void *arg);
+int			init_sim(t_sim *sim, t_config *cfg);
+void		destroy_sim(t_sim *sim);
+void		cleanup(t_sim *sim, int n_created);
+
 #endif

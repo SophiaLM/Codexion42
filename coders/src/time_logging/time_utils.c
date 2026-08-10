@@ -6,7 +6,7 @@
  * obtiene el tiempo actual, calcula los milisegundos
  * transcurridos desde el inicio de la simulación y los devuelve. */
 
-#include "codexion.h"
+#include "../../includes/codexion.h"
 
 long long	now_ms(void)
 {

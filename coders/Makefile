@@ -16,27 +16,37 @@ RESET = \033[0m
 
 HEADER = includes/codexion.h
 
-SRC = srcs/auxiliary_libft/ft_atoi.c \
-      srcs/auxiliary_libft/ft_atoll.c \
-      srcs/auxiliary_libft/ft_bzero.c \
-      srcs/auxiliary_libft/ft_calloc.c \
-      srcs/auxiliary_libft/ft_validnumber.c \
-      srcs/auxiliary_libft/ft_putchar.c \
-      srcs/auxiliary_libft/ft_putchar_fd.c \
-      srcs/auxiliary_libft/ft_putendl.c \
-      srcs/auxiliary_libft/ft_putendl_fd.c \
-      srcs/auxiliary_libft/ft_putstr.c \
-      srcs/auxiliary_libft/ft_putstr_fd.c \
-      srcs/auxiliary_libft/ft_putnbr.c \
-      srcs/auxiliary_libft/ft_strlen.c \
-      srcs/auxiliary_libft/ft_strncmp.c \
-      srcs/parcing/parcing.c \
-      srcs/parcing/parching_utils.c \
-      srcs/queue/queue_init.c \
-      srcs/queue/queue_utils.c \
-      srcs/queue/queue_push.c \
-      srcs/queue/queue_pop.c \
-      srcs/codexion.c
+SRC = src/auxiliary_libft/ft_atoi.c \
+      src/auxiliary_libft/ft_atoll.c \
+      src/auxiliary_libft/ft_bzero.c \
+      src/auxiliary_libft/ft_calloc.c \
+      src/auxiliary_libft/ft_validnumber.c \
+      src/auxiliary_libft/ft_putchar.c \
+      src/auxiliary_libft/ft_putchar_fd.c \
+      src/auxiliary_libft/ft_putendl.c \
+      src/auxiliary_libft/ft_putendl_fd.c \
+      src/auxiliary_libft/ft_putstr.c \
+      src/auxiliary_libft/ft_putstr_fd.c \
+      src/auxiliary_libft/ft_putnbr.c \
+      src/auxiliary_libft/ft_strlen.c \
+      src/auxiliary_libft/ft_strncmp.c \
+      src/parcing/parcing.c \
+      src/parcing/parching_utils.c \
+      src/queue/queue_init.c \
+      src/queue/queue_utils.c \
+      src/queue/queue_push.c \
+      src/queue/queue_pop.c \
+      src/time_logging/time_utils.c \
+      src/time_logging/smart_sleep.c \
+      src/time_logging/sim_stopped.c \
+      src/time_logging/log_state.c \
+      src/coder_routine/coder_routine.c \
+      src/coder_routine/dongles_fake.c \
+      src/coder_routine/set_compile_start.c \
+      src/sim/sim_init.c \
+      src/sim/sim_destroy.c \
+      src/sim/sim_cleanup.c \
+      src/codexion.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -46,19 +56,31 @@ $(NAME): $(OBJ)
 	@echo "$(PASTEL_PINK)creating $(STRONG_PINK)$(NAME)..."
 	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 
-srcs/auxiliary_libft/%.o: srcs/auxiliary_libft/%.c $(HEADER)
+src/auxiliary_libft/%.o: src/auxiliary_libft/%.c $(HEADER)
 	@echo "$(PASTEL_PINK)compiling $(STRONG_PINK)$<..."
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-srcs/parcing/%.o: srcs/parcing/%.c $(HEADER)
+src/parcing/%.o: src/parcing/%.c $(HEADER)
 	@echo "$(PASTEL_PINK)compiling $(STRONG_PINK)$<..."
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-srcs/queue/%.o: srcs/queue/%.c $(HEADER)
+src/time_logging/%.o: src/time_logging/%.c $(HEADER)
 	@echo "$(PASTEL_PINK)compiling $(STRONG_PINK)$<..."
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-srcs/%.o: srcs/%.c $(HEADER)
+src/coder_routine/%.o: src/coder_routine/%.c $(HEADER)
+	@echo "$(PASTEL_PINK)compiling $(STRONG_PINK)$<..."
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+src/sim/%.o: src/sim/%.c $(HEADER)
+	@echo "$(PASTEL_PINK)compiling $(STRONG_PINK)$<..."
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+src/queue/%.o: src/queue/%.c $(HEADER)
+	@echo "$(PASTEL_PINK)compiling $(STRONG_PINK)$<..."
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+src/%.o: src/%.c $(HEADER)
 	@echo "$(PASTEL_PINK)compiling $(STRONG_PINK)$<..."
 	@$(CC) $(CFLAGS) -c $< -o $@
 

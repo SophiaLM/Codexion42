@@ -3,12 +3,12 @@
  * Si la simulación no ha terminado, imprime el tiempo transcurrido,
  * el id del coder y el mensaje proporcionado. */
 
-#include "codexion.h"
+#include "../../includes/codexion.h"
 
 void	log_state(t_sim *sim, int coder_id, const char *msg)
 {
 	pthread_mutex_lock(&sim->print_mutex);
-	if (!sim->stop)
+	if (!sim_stopped(sim))
 	{
 		ft_putnbr(elapsed_ms(sim));
 		ft_putchar(' ');

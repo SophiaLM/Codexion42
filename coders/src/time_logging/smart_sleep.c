@@ -3,7 +3,7 @@
  * comprobando en cada ciclo si la simulacion ha terminado (sim_stopped).
  * Si se detecta parada, sale inmediatamente sin esperar el tiempo restante. */
 
-#include "codexion.h"
+#include "../../includes/codexion.h"
 
 void	smart_sleep(long long duration_ms, t_sim *sim)
 {
