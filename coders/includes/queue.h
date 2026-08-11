@@ -24,6 +24,7 @@ t_request	heap_pop(t_heap *heap);
 t_request	heap_peek(t_heap *heap);
 int			heap_size(t_heap *heap);
 void		heap_swap(t_request *a, t_request *b);
+int			smallest_child(t_heap *heap, int i);
 int			cmp_min(t_request a, t_request b);
 
 #endif

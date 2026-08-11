@@ -41,13 +41,17 @@ typedef struct s_config
 	t_scheduler	scheduler;
 }	t_config;
 
-/* mutex, variable de condicion, estado (libre/ocupado), *
- * timestamp available_at (para el cooldown), heap de peticiones */
+/* mutex, variable de condicion, holder (0 = libre), cooldown, *
+ * cola de peticiones FIFO/EDF, contador de ticket */
 typedef struct s_dongle
 {
-	int			id;
-	int			is_taken;
-	long long	available_at_ms;
+	int				id;
+	int				holder;
+	long long		available_at_ms;
+	pthread_mutex_t	mtx;
+	pthread_cond_t	cond;
+	t_heap			queue;
+	long long		next_ticket;
 }	t_dongle;
 
 /* id, handle del hilo, last_compile_start, compile_count */
@@ -103,10 +107,16 @@ void		smart_sleep(long long duration_ms, t_sim *sim);
 int			sim_stopped(t_sim *sim);
 void		sim_stop(t_sim *sim);
 void		log_state(t_sim *sim, int coder_id, const char *msg);
-void		take_dongles_fake(t_coder *me);
-void		release_dongles_fake(t_coder *me);
 void		set_compile_start(t_coder *me);
 void		*coder_routine(void *arg);
+int			init_dongles(t_sim *sim, t_config *cfg);
+void		destroy_dongles(t_sim *sim);
+void		assign_dongles(t_sim *sim);
+int			my_turn(t_coder *me, t_dongle *d);
+void		take_dongle(t_coder *me, t_dongle *d);
+void		take_dongles(t_coder *me);
+void		release_dongle(t_dongle *d);
+void		release_dongles(t_coder *me);
 int			init_sim(t_sim *sim, t_config *cfg);
 void		destroy_sim(t_sim *sim);
 void		cleanup(t_sim *sim, int n_created);

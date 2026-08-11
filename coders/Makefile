@@ -41,7 +41,6 @@ SRC = src/auxiliary_libft/ft_atoi.c \
       src/time_logging/sim_stopped.c \
       src/time_logging/log_state.c \
       src/coder_routine/coder_routine.c \
-      src/coder_routine/dongles_fake.c \
       src/coder_routine/set_compile_start.c \
       src/sim/sim_init.c \
       src/sim/sim_destroy.c \
