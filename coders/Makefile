@@ -36,12 +36,18 @@ SRC = src/auxiliary_libft/ft_atoi.c \
       src/queue/queue_utils.c \
       src/queue/queue_push.c \
       src/queue/queue_pop.c \
+      src/queue/queue_remove.c \
       src/time_logging/time_utils.c \
       src/time_logging/smart_sleep.c \
       src/time_logging/sim_stopped.c \
       src/time_logging/log_state.c \
       src/coder_routine/coder_routine.c \
       src/coder_routine/set_compile_start.c \
+      src/dongles/dongle_init.c \
+      src/dongles/dongle_destroy.c \
+      src/dongles/dongle_utils.c \
+      src/dongles/dongle_take.c \
+      src/dongles/dongle_release.c \
       src/sim/sim_init.c \
       src/sim/sim_destroy.c \
       src/sim/sim_cleanup.c \

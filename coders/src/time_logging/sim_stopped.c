@@ -1,7 +1,19 @@
-/* sim_stopped: lee el flag de parada de forma segura usando mutex.
- * Bloquea stop_mutex, lee el estado y lo desbloquea.
- * sim_stop: marca la simulación como finalizada de forma segura.
- * Bloquea stop_mutex, pone stop = 1 y lo desbloquea. */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sim_stopped.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sophluna <marvin@42.fr>                    +#+  +:+        +#+       */
+/*                                                +#+#+#+#+#+     +#+         */
+/*   Created: 2026/08/23 19:09:12 by sophluna            #+#    #+#           */
+/*   Updated: 2026/08/23 19:34:27 by sophluna           ###   ########.fr     */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* sim_stopped: reads the stop flag safely using a mutex.
+ * Locks stop_mutex, reads the state and unlocks it.
+ * sim_stop: marks the simulation as finished safely.
+ * Locks stop_mutex, sets stop = 1 and unlocks it. */
 
 #include "../../includes/codexion.h"
 

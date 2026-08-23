@@ -1,4 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   queue_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sophluna <marvin@42.fr>                    +#+  +:+        +#+       */
+/*                                                +#+#+#+#+#+     +#+         */
+/*   Created: 2026/08/23 19:09:12 by sophluna            #+#    #+#           */
+/*   Updated: 2026/08/23 19:34:27 by sophluna           ###   ########.fr     */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/codexion.h"
+
+int	cmp_min(t_request a, t_request b)
+{
+	if (a.key < b.key)
+		return (-1);
+	if (a.key > b.key)
+		return (1);
+	return (0);
+}
 
 int	smallest_child(t_heap *heap, int i)
 {
@@ -18,6 +39,20 @@ int	smallest_child(t_heap *heap, int i)
 	return (smallest);
 }
 
+void	heap_sift_down(t_heap *heap, int i)
+{
+	int	smallest;
+
+	while (1)
+	{
+		smallest = smallest_child(heap, i);
+		if (smallest == i)
+			break ;
+		heap_swap(&heap->data[i], &heap->data[smallest]);
+		i = smallest;
+	}
+}
+
 void	heap_swap(t_request *a, t_request *b)
 {
 	t_request	tmp;
@@ -25,14 +60,4 @@ void	heap_swap(t_request *a, t_request *b)
 	tmp = *a;
 	*a = *b;
 	*b = tmp;
-}
-
-t_request	heap_peek(t_heap *heap)
-{
-	return (heap->data[0]);
-}
-
-int	heap_size(t_heap *heap)
-{
-	return (heap->size);
 }

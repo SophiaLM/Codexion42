@@ -1,7 +1,19 @@
-/* log_state: imprime el estado actual de la simulación de forma segura.
- * Bloquea print_mutex para evitar que otros hilos interrumpan la salida.
- * Si la simulación no ha terminado, imprime el tiempo transcurrido,
- * el id del coder y el mensaje proporcionado. */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   log_state.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sophluna <marvin@42.fr>                    +#+  +:+        +#+       */
+/*                                                +#+#+#+#+#+     +#+         */
+/*   Created: 2026/08/23 19:09:12 by sophluna            #+#    #+#           */
+/*   Updated: 2026/08/23 19:34:27 by sophluna           ###   ########.fr     */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* log_state: prints the current state of the simulation safely.
+ * Locks print_mutex so other threads cannot interleave the output.
+ * If the simulation has not ended, prints the elapsed time,
+ * the coder id and the provided message. */
 
 #include "../../includes/codexion.h"
 

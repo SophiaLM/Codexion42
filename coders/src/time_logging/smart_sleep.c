@@ -1,7 +1,14 @@
-/* smart_sleep: espera el tiempo indicado de forma interrumpible.
- * Guarda el instante de inicio y duerme en pasos cortos (SLEEP_STEP_US),
- * comprobando en cada ciclo si la simulacion ha terminado (sim_stopped).
- * Si se detecta parada, sale inmediatamente sin esperar el tiempo restante. */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   smart_sleep.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sophluna <marvin@42.fr>                    +#+  +:+        +#+       */
+/*                                                +#+#+#+#+#+     +#+         */
+/*   Created: 2026/08/23 19:09:12 by sophluna            #+#    #+#           */
+/*   Updated: 2026/08/23 19:34:27 by sophluna           ###   ########.fr     */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../includes/codexion.h"
 

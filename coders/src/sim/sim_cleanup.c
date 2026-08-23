@@ -1,6 +1,18 @@
-/* cleanup: camino de error de main. Detiene la simulacion,
- * hace join de los hilos que ya se crearon (de 0 a n_created)
- * y libera todos los recursos antes de salir con codigo != 0. */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sim_cleanup.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sophluna <marvin@42.fr>                    +#+  +:+        +#+       */
+/*                                                +#+#+#+#+#+     +#+         */
+/*   Created: 2026/08/23 19:09:12 by sophluna            #+#    #+#           */
+/*   Updated: 2026/08/23 19:34:27 by sophluna           ###   ########.fr     */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* cleanup: main's error path. Stops the simulation,
+ * joins the threads that were already created (0 to n_created)
+ * and frees every resource before exiting with code != 0. */
 #include "../../includes/codexion.h"
 
 void	cleanup(t_sim *sim, int n_created)

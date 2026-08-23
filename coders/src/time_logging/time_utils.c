@@ -1,10 +1,22 @@
-/* now_ms: 
- * obtiene la hora actual del sistema y la devuelve en milisegundos.
- * USA gettimeofday() que almacena segundos y microsegundos en struct timeval.
- * Convierte los segundos a ms y suma los ms procedentes de los microsegundos.
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   time_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sophluna <marvin@42.fr>                    +#+  +:+        +#+       */
+/*                                                +#+#+#+#+#+     +#+         */
+/*   Created: 2026/08/23 19:09:12 by sophluna            #+#    #+#           */
+/*   Updated: 2026/08/23 19:34:27 by sophluna           ###   ########.fr     */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* now_ms:
+ * gets the current system time and returns it in milliseconds.
+ * USES gettimeofday(), which stores seconds and microseconds in struct timeval.
+ * Converts the seconds to ms and adds the ms coming from the microseconds.
  * elapsed_ms:
- * obtiene el tiempo actual, calcula los milisegundos
- * transcurridos desde el inicio de la simulación y los devuelve. */
+ * gets the current time, computes the milliseconds
+ * elapsed since the start of the simulation and returns them. */
 
 #include "../../includes/codexion.h"
 

@@ -1,3 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   codexion.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sophluna <marvin@42.fr>                    +#+  +:+        +#+       */
+/*                                                +#+#+#+#+#+     +#+         */
+/*   Created: 2026/08/23 19:09:12 by sophluna            #+#    #+#           */
+/*   Updated: 2026/08/23 19:34:27 by sophluna           ###   ########.fr     */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* e_error: error codes */
+/* e_scheduler: scheduler type */
+/* s_config: the 8 validated arguments */
+/* s_dongle: mutex, condition variable, holder (0 = free), cooldown,
+ * FIFO/EDF request queue, ticket counter */
+/* s_coder: id, thread handle, state mutex, last_compile_start,
+ * compile_count, first/second dongle pointers, back-pointer to sim */
+/* s_sim: config, start time, coders array, dongles array,
+ * stop flag + its mutex, print mutex, monitor thread.
+ * NEVER hold stop_mutex when calling log_state() — see day 5 */
+
 #ifndef CODEXION_H
 # define CODEXION_H
 # include <stdlib.h>
@@ -8,8 +31,8 @@
 # include <sys/time.h>
 # define SLEEP_STEP_US 200
 # define BURNOUT_TOLERANCE_MS 10
+# define COND_POLL_MS 10
 
-/* Errores */
 typedef enum e_error
 {
 	ERR_OK = 0,
@@ -21,14 +44,12 @@ typedef enum e_error
 	ERR_SCHEDULER,
 }	t_error;
 
-/* scheduler */
 typedef enum e_scheduler
 {
 	SCHEDULER_FIFO,
 	SCHEDULER_EDF,
 }	t_scheduler;
 
-/* Los 8 argumentos validados */
 typedef struct s_config
 {
 	int			number_of_coders;
@@ -41,8 +62,6 @@ typedef struct s_config
 	t_scheduler	scheduler;
 }	t_config;
 
-/* mutex, variable de condicion, holder (0 = libre), cooldown, *
- * cola de peticiones FIFO/EDF, contador de ticket */
 typedef struct s_dongle
 {
 	int				id;
@@ -54,7 +73,6 @@ typedef struct s_dongle
 	long long		next_ticket;
 }	t_dongle;
 
-/* id, handle del hilo, last_compile_start, compile_count */
 typedef struct s_coder
 {
 	int				id;
@@ -67,8 +85,6 @@ typedef struct s_coder
 	struct s_sim	*sim;
 }	t_coder;
 
-/* configuracion, hora de inicio, array de coders, array de dongles, *
- * flag de parada + su mutex, mutex de impresion, hilo monitor. */
 typedef struct s_sim
 {
 	t_config		config;
@@ -76,7 +92,6 @@ typedef struct s_sim
 	t_coder			*coders;
 	t_dongle		*dongles;
 	int				stop;
-	/* NUNCA sostener este mutex al llamar a log_state() — ver dia 5 */
 	pthread_mutex_t	stop_mutex;
 	pthread_mutex_t	print_mutex;
 }	t_sim;
@@ -113,9 +128,10 @@ int			init_dongles(t_sim *sim, t_config *cfg);
 void		destroy_dongles(t_sim *sim);
 void		assign_dongles(t_sim *sim);
 int			my_turn(t_coder *me, t_dongle *d);
+long long	compute_key(t_coder *me, t_dongle *d);
 void		take_dongle(t_coder *me, t_dongle *d);
 void		take_dongles(t_coder *me);
-void		release_dongle(t_dongle *d);
+void		release_dongle(t_dongle *d, long long cooldown);
 void		release_dongles(t_coder *me);
 int			init_sim(t_sim *sim, t_config *cfg);
 void		destroy_sim(t_sim *sim);

@@ -1,24 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   queue_pop.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sophluna <marvin@42.fr>                    +#+  +:+        +#+       */
+/*                                                +#+#+#+#+#+     +#+         */
+/*   Created: 2026/08/23 19:09:12 by sophluna            #+#    #+#           */
+/*   Updated: 2026/08/23 19:34:27 by sophluna           ###   ########.fr     */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* heap_pop: extracts the heap root (element with minimum priority),
+ * moves the last element to the root and sifts it down (sift-down)
+ * until the heap property is restored.
+ * IMPORTANT: it must never be called with size == 0. In this project
+ * that is guaranteed by construction (heap_push of the requester's
+ * own request is always done before waiting). */
 #include "../../includes/codexion.h"
-/* heap_pop: extrae la raiz del heap (elemento con prioridad minima), *
- * mueve el ultimo elemento a la raiz y lo hunde (sift-down) *
- * hasta restaurar la propiedad de heap. */
+
 t_request	heap_pop(t_heap *heap)
 {
 	t_request	root;
-	int			i;
-	int			smallest;
 
 	root = heap->data[0];
 	heap->size--;
 	heap->data[0] = heap->data[heap->size];
-	i = 0;
-	while (1)
-	{
-		smallest = smallest_child(heap, i);
-		if (smallest == i)
-			break ;
-		heap_swap(&heap->data[i], &heap->data[smallest]);
-		i = smallest;
-	}
+	heap_sift_down(heap, 0);
 	return (root);
 }
