@@ -10,23 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/* deadline_ms: builds an absolute timespec (CLOCK_REALTIME)
- * ms in the future, for pthread_cond_timedwait. */
-/* wait_for_turn: sleeps in the waiting room until it is my turn
- * or the simulation stops. timedwait is used with a short timeout (and
- * not plain cond_wait) because when the simulation shuts down nobody
- * broadcasts on these conds yet; the timeout makes the waiter re-check
- * sim_stopped periodically and exit promptly.
- * CAUTION: this loop runs with d->mtx locked; do NOT call
- * log_state or smart_sleep here. */
-/* leave_or_take: if the simulation stopped, leave the queue cleanly
- * (heap_remove, because our own request may sit at any
- * position); otherwise the request is at the root (my_turn guarantees it)
- * and heap_pop is used. Logging happens AFTER unlocking d->mtx. */
-/* take_dongles: acquires BOTH dongles in ascending id order
- * (resource ordering: breaks Coffman's circular wait).
- * With number_of_coders == 1, first == second: the lo != hi check
- * avoids locking the same mutex twice. */
 #include <time.h>
 #include "../../includes/codexion.h"
 
@@ -95,7 +78,11 @@ void	take_dongles(t_coder *me)
 		low = me->second;
 		high = me->first;
 	}
+	if (low == high)
+	{
+		handle_only_dongle(me, low);
+		return ;
+	}
 	take_dongle(me, low);
-	if (low != high)
-		take_dongle(me, high);
+	take_dongle(me, high);
 }

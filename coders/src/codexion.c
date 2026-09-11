@@ -27,9 +27,17 @@ static int	run_coders(t_sim *sim, t_config *cfg)
 			return (0);
 		}
 	}
+	if (pthread_create(&sim->monitor_thread, NULL,
+			monitor_routine, sim) != 0)
+	{
+		cleanup(sim, cfg->number_of_coders);
+		ft_putendl_fd("Error: no se pudo crear el hilo monitor", 2);
+		return (0);
+	}
 	i = -1;
 	while (++i < cfg->number_of_coders)
 		pthread_join(sim->coders[i].thread, NULL);
+	pthread_join(sim->monitor_thread, NULL);
 	return (1);
 }
 
@@ -48,5 +56,5 @@ int	main(int argc, char **argv)
 	if (!run_coders(&sim, &cfg))
 		return (1);
 	destroy_sim(&sim);
-	return (0);
+	return (sim.stop);
 }

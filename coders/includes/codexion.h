@@ -94,6 +94,7 @@ typedef struct s_sim
 	int				stop;
 	pthread_mutex_t	stop_mutex;
 	pthread_mutex_t	print_mutex;
+	pthread_t		monitor_thread;
 }	t_sim;
 
 int			ft_atoi(const char *str, int *out);
@@ -124,10 +125,12 @@ void		sim_stop(t_sim *sim);
 void		log_state(t_sim *sim, int coder_id, const char *msg);
 void		set_compile_start(t_coder *me);
 void		*coder_routine(void *arg);
+void		*monitor_routine(void *arg);
 int			init_dongles(t_sim *sim, t_config *cfg);
 void		destroy_dongles(t_sim *sim);
 void		assign_dongles(t_sim *sim);
 int			my_turn(t_coder *me, t_dongle *d);
+void		handle_only_dongle(t_coder *me, t_dongle *only);
 long long	compute_key(t_coder *me, t_dongle *d);
 void		take_dongle(t_coder *me, t_dongle *d);
 void		take_dongles(t_coder *me);

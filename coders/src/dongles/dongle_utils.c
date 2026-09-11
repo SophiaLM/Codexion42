@@ -51,3 +51,10 @@ long long	compute_key(t_coder *me, t_dongle *d)
 	pthread_mutex_unlock(&me->state_mutex);
 	return (deadline);
 }
+
+void	handle_only_dongle(t_coder *me, t_dongle *only)
+{
+	take_dongle(me, only);
+	log_state(me->sim, me->id, "burned out");
+	sim_stop(me->sim);
+}

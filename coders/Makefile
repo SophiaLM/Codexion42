@@ -51,6 +51,7 @@ SRC = src/auxiliary_libft/ft_atoi.c \
       src/sim/sim_init.c \
       src/sim/sim_destroy.c \
       src/sim/sim_cleanup.c \
+      src/sim/sim_monitor.c \
       src/codexion.c
 
 OBJ = $(SRC:.c=.o)

@@ -38,7 +38,6 @@ void	*coder_routine(void *arg)
 		log_state(me->sim, me->id, "is compiling");
 		smart_sleep(cfg->time_to_compile, me->sim);
 		release_dongles(me);
-		log_state(me->sim, me->id, "has released the dongles");
 		log_state(me->sim, me->id, "is debugging");
 		smart_sleep(cfg->time_to_debug, me->sim);
 		log_state(me->sim, me->id, "is refactoring");
