@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   sim_monitor.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sophluna <marvin@42.fr>                    +#+  +:+        +#+       */
+/*   By: sophluna <sophluna@student.42madrid.com>   +#+  +:+        +#+       */
 /*                                                +#+#+#+#+#+     +#+         */
 /*   Created: 2026/09/11 12:00:00 by sophluna            #+#    #+#           */
 /*   Updated: 2026/09/11 12:00:00 by sophluna           ###   ########.fr     */

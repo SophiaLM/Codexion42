@@ -47,6 +47,7 @@ SRC = src/auxiliary_libft/ft_atoi.c \
       src/dongles/dongle_destroy.c \
       src/dongles/dongle_utils.c \
       src/dongles/dongle_take.c \
+      src/dongles/dongle_pair.c \
       src/dongles/dongle_release.c \
       src/sim/sim_init.c \
       src/sim/sim_destroy.c \

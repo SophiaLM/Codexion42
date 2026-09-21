@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   sim_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sophluna <marvin@42.fr>                    +#+  +:+        +#+       */
+/*   By: sophluna <sophluna@student.42madrid.com>   +#+  +:+        +#+       */
 /*                                                +#+#+#+#+#+     +#+         */
 /*   Created: 2026/08/23 19:09:12 by sophluna            #+#    #+#           */
 /*   Updated: 2026/08/23 19:34:27 by sophluna           ###   ########.fr     */
@@ -55,6 +55,12 @@ static int	init_sim_mutexes(t_sim *sim)
 		pthread_mutex_destroy(&sim->stop_mutex);
 		return (0);
 	}
+	if (pthread_mutex_init(&sim->acq_mutex, NULL) != 0)
+	{
+		pthread_mutex_destroy(&sim->print_mutex);
+		pthread_mutex_destroy(&sim->stop_mutex);
+		return (0);
+	}
 	return (1);
 }
 
@@ -64,6 +70,7 @@ static void	cleanup_sim_fail(t_sim *sim, int rollback)
 		rollback_coders(sim);
 	pthread_mutex_destroy(&sim->print_mutex);
 	pthread_mutex_destroy(&sim->stop_mutex);
+	pthread_mutex_destroy(&sim->acq_mutex);
 	free(sim->coders);
 }
 

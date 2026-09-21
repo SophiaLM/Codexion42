@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   codexion.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sophluna <marvin@42.fr>                    +#+  +:+        +#+       */
+/*   By: sophluna <sophluna@student.42madrid.com>   +#+  +:+        +#+       */
 /*                                                +#+#+#+#+#+     +#+         */
 /*   Created: 2026/08/23 19:09:12 by sophluna            #+#    #+#           */
 /*   Updated: 2026/08/23 19:34:27 by sophluna           ###   ########.fr     */
@@ -18,7 +18,8 @@
 /* s_coder: id, thread handle, state mutex, last_compile_start,
  * compile_count, first/second dongle pointers, back-pointer to sim */
 /* s_sim: config, start time, coders array, dongles array,
- * stop flag + its mutex, print mutex, monitor thread.
+ * stop flag + its mutex, print mutex, acq_mutex (atomic pair
+ * acquisition, see dongle_pair.c), monitor thread.
  * NEVER hold stop_mutex when calling log_state() — see day 5 */
 
 #ifndef CODEXION_H
@@ -94,6 +95,7 @@ typedef struct s_sim
 	int				stop;
 	pthread_mutex_t	stop_mutex;
 	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	acq_mutex;
 	pthread_t		monitor_thread;
 }	t_sim;
 

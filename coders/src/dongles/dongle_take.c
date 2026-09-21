@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   dongle_take.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sophluna <marvin@42.fr>                    +#+  +:+        +#+       */
+/*   By: sophluna <sophluna@student.42madrid.com>   +#+  +:+        +#+       */
 /*                                                +#+#+#+#+#+     +#+         */
 /*   Created: 2026/08/23 19:09:12 by sophluna            #+#    #+#           */
 /*   Updated: 2026/08/23 19:34:27 by sophluna           ###   ########.fr     */
@@ -51,6 +51,9 @@ static void	leave_or_take(t_coder *me, t_dongle *d)
 	}
 }
 
+/* take_dongle: single-dongle path (number_of_coders == 1, see
+ * take_dongles in dongle_pair.c). The coder enqueues its request,
+ * waits for its turn and takes the dongle once it is the head. */
 void	take_dongle(t_coder *me, t_dongle *d)
 {
 	t_request	req;
@@ -61,28 +64,4 @@ void	take_dongle(t_coder *me, t_dongle *d)
 	heap_push(&d->queue, req);
 	wait_for_turn(me, d);
 	leave_or_take(me, d);
-}
-
-void	take_dongles(t_coder *me)
-{
-	t_dongle	*low;
-	t_dongle	*high;
-
-	if (me->first->id < me->second->id)
-	{
-		low = me->first;
-		high = me->second;
-	}
-	else
-	{
-		low = me->second;
-		high = me->first;
-	}
-	if (low == high)
-	{
-		handle_only_dongle(me, low);
-		return ;
-	}
-	take_dongle(me, low);
-	take_dongle(me, high);
 }

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   sim_destroy.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sophluna <marvin@42.fr>                    +#+  +:+        +#+       */
+/*   By: sophluna <sophluna@student.42madrid.com>   +#+  +:+        +#+       */
 /*                                                +#+#+#+#+#+     +#+         */
 /*   Created: 2026/08/23 19:09:12 by sophluna            #+#    #+#           */
 /*   Updated: 2026/08/23 19:34:27 by sophluna           ###   ########.fr     */
@@ -33,6 +33,7 @@ void	destroy_sim(t_sim *sim)
 		destroy_coders(sim);
 	pthread_mutex_destroy(&sim->stop_mutex);
 	pthread_mutex_destroy(&sim->print_mutex);
+	pthread_mutex_destroy(&sim->acq_mutex);
 	destroy_dongles(sim);
 	free(sim->coders);
 	sim->coders = NULL;
