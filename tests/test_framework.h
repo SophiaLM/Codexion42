@@ -782,9 +782,16 @@ static inline void tf_run_fail(tf_opts *o, int id, const char *name,
 	for (v = 0; v < nv; v++) {
 		char part[512] = "";
 		for (k = 0; k < variants[v].argc; k++) {
+			char tok[256];
 			size_t used = strlen(part);
 			if (k) strncat(part, " ", sizeof(part) - used - 1);
-			strncat(part, variants[v].argv[k], sizeof(part) - strlen(part) - 1);
+			if (k == 0)
+				tf_cmd_display(variants[v].argv[0], "", "",
+					       tok, sizeof tok);
+			else
+				strncpy(tok, variants[v].argv[k], sizeof tok - 1);
+			tok[sizeof tok - 1] = '\0';
+			strncat(part, tok, sizeof(part) - strlen(part) - 1);
 		}
 		if (v) strncat(disp, "  |  ", sizeof(disp) - strlen(disp) - 1);
 		strncat(disp, part, sizeof(disp) - strlen(disp) - 1);
