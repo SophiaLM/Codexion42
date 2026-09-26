@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parcing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sophluna <sophluna@student.42madrid.com>   +#+  +:+        +#+       */
-/*                                                +#+#+#+#+#+     +#+         */
-/*   Created: 2026/08/23 19:09:12 by sophluna            #+#    #+#           */
-/*   Updated: 2026/08/23 19:34:27 by sophluna           ###   ########.fr     */
+/*   By: sophluna <sophluna@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/23 19:09:12 by sophluna          #+#    #+#             */
+/*   Updated: 2026/09/26 05:23:56 by sophluna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ void	print_error(t_error code)
 {
 	const char	*msgs[7];
 
-	msgs[ERR_ARGC] = "Error: numero de argumentos incorrecto";
-	msgs[ERR_NOT_NUMERIC] = "Error: argumento no numerico";
-	msgs[ERR_OVERFLOW] = "Error: numero demasiado grande";
-	msgs[ERR_ZERO] = "Error: el valor no puede ser cero";
-	msgs[ERR_NEGATIVE] = "Error: el valor no puede ser negativo";
-	msgs[ERR_SCHEDULER] = "Error: scheduler debe ser 'fifo' o 'edf'";
+	msgs[ERR_ARGC] = "Error: incorrect number of arguments";
+	msgs[ERR_NOT_NUMERIC] = "Error: argument is not numeric";
+	msgs[ERR_OVERFLOW] = "Error: number too large";
+	msgs[ERR_ZERO] = "Error: value cannot be zero";
+	msgs[ERR_NEGATIVE] = "Error: value cannot be negative";
+	msgs[ERR_SCHEDULER] = "Error: scheduler must be 'fifo' or 'edf'";
 	ft_putendl_fd(msgs[code], 2);
 }
 
