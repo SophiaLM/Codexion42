@@ -17,6 +17,7 @@ Todos los comandos asumen el binario en `coders/codexion`. La firma es:
 * **C4** — Timestamps monótonos (global y por coder)
 * **C5** — Todos los coders `1..N` aparecen y completan las compilaciones requeridas
 * **C6** — `burned out` aparece exactamente una vez y como **última línea**
+* **C7** — Ningún coder puede emitir un evento propio (toma de dongle, compile, debug o refactor) después de su deadline teórico `last_compile_start + time_to_burnout` (o `time_to_burnout` desde el inicio si aún no compiló) y antes del `burned out`. Detecta deaths enmascaradas, como el caso reportado del coder que recompila en el ms ~120 cuando su deadline era 110.
 * **C8** — `timeout`(124)=No Definido; `139`/`134` o log vacío = FAIL
 
 ---
@@ -127,7 +128,7 @@ Todos los comandos asumen el binario en `coders/codexion`. La firma es:
 * **Propósito:** Configuración inviable: el ciclo completo (200+200+200=600ms) supera el tiempo de agotamiento (300ms). El monitor debe detectar el burnout y detener la simulación.
 * **Comportamiento Esperado:**
   * **Exit Code:** `!= 0` (terminación temprana; no `0` ni timeout `124`)
-  * **Salida Log:** `burned out` exactamente una vez y como **última línea** (Regla C6).
+  * **Salida Log:** `burned out` exactamente una vez y como **última línea** (Regla C6); además no deben existir eventos del coder tras su deadline de 300ms (Regla C7).
 
 ## [TEST 14] 1 coder, dongle único
 
@@ -135,7 +136,7 @@ Todos los comandos asumen el binario en `coders/codexion`. La firma es:
 * **Propósito:** Validar la salida temprana cuando un solo coder intenta operar sin la cantidad mínima de dongles requerida (necesita 2 y con una sola persona solo hay 1 dongle en la mesa).
 * **Comportamiento Esperado:**
   * **Exit Code:** `!= 0` (no debe terminar con `0` ni dar *timeout* `124`)
-  * **Salida Log:** El coder 1 debe registrar `burned out` como la **última línea** de salida (Regla C6).
+  * **Salida Log:** El coder 1 debe registrar `burned out` como la **última línea** de salida (Regla C6); sin eventos propios tras su deadline de 300ms (Regla C7).
 
 ## [TEST 15] 4 coders, inanicion FIFO, margen nulo
 
@@ -160,6 +161,22 @@ Todos los comandos asumen el binario en `coders/codexion`. La firma es:
 * **Comportamiento Esperado:**
   * **Exit Code:** `!= 0` (burnout)
   * **Salida Log:** delay acotado: `<= 10ms` (ideal, spec) o `<= 25ms` (aceptable por poll + tolerancia).
+
+## [TEST 39] Caso reportado: verificacion regresiva del bug del monitor
+
+* **Comando:** `./codexion 2 110 59 30 30 2 1 fifo`
+* **Propósito:** Regresión del caso reportado por el evaluador: en el ms ~120 el coder 1 seguía compilando cuando debería haber muerto en el ms 110. El ciclo (59+30+30=119ms) supera el burnout (110ms), así que la simulación **debe** terminar siempre por agotamiento, nunca con exit `0`.
+* **Comportamiento Esperado:**
+  * **Exit Code:** `!= 0` (burnout; nunca `0` ni timeout `124`)
+  * **Salida Log:** `burned out` exactamente una vez y como **última línea** (Regla C6); sin eventos del coder tras su deadline de 110ms (Regla C7, falla el binario buggy si recompila en el ms 120); delay del log ≤ 10ms.
+
+## [TEST 40] Banda critica +10ms: borde del agotamiento
+
+* **Comando:** `./codexion 2 110 60 30 30 2 1 fifo`
+* **Propósito:** Variante de regresión en el borde de la banda crítica: ciclo (60+30+30=120ms) = burnout (110ms) + 10ms (la ventana exacta del poll). El monitor debe ganar la carrera contra el reseteo del coder y terminar por agotamiento.
+* **Comportamiento Esperado:**
+  * **Exit Code:** `!= 0` (burnout; el coder coincide con el último momento viable para recompilar)
+  * **Salida Log:** `burned out` única vez y como última línea (Regla C6); sin eventos tras el deadline de 110ms (Regla C7).
 
 ---
 

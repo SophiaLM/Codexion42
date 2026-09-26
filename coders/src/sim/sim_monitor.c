@@ -52,7 +52,7 @@ static int	burn_first_starved(t_sim *sim)
 		me = &sim->coders[i];
 		pthread_mutex_lock(&me->state_mutex);
 		if (now - me->last_compile_start
-			> sim->config.time_to_burnout + BURNOUT_TOLERANCE_MS)
+			>= sim->config.time_to_burnout)
 		{
 			pthread_mutex_unlock(&me->state_mutex);
 			log_state(sim, me->id, "burned out");

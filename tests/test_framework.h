@@ -627,8 +627,8 @@ static inline int tf_check_burnout(const char *content)
 	return fail;
 }
 
-/* Delay del monitor: burn_ts - ultimo "is compiling" del coder - 300ms. */
-static inline long long tf_monitor_delay(const char *content)
+/* Delay del monitor: burn_ts - ultimo "is compiling" del coder - burnout. */
+static inline long long tf_monitor_delay(const char *content, long long burnout)
 {
 	enum { MAXID = 4096 };
 	long long lastc[MAXID];
@@ -662,7 +662,52 @@ static inline long long tf_monitor_delay(const char *content)
 
 	if (burn_id < 1 || burn_id >= MAXID || lastc[burn_id] < 0)
 		return -1;
-	return burn_ts - lastc[burn_id] - 300;
+	return burn_ts - lastc[burn_id] - burnout;
+}
+
+/* C6 temporizado: ningun coder puede emitir un evento propio despues de su
+ * deadline teorico (inicio de su ultima compilacion + time_to_burnout, o el
+ * arranque de la simulacion si aun no compilo) ANTES del 'burned out'.
+ * Detecta el caso reportado: un coder que recompila en el ms ~120 cuando su
+ * deadline era 110 queda enmascarado aunque el log termine bien. */
+static inline int tf_check_deadline(const char *content, long long burnout)
+{
+	enum { MAXID = 4096 };
+	long long lastc[MAXID];
+	char *copy;
+	char *save = NULL;
+	char *line;
+	int i;
+	int fail = 0;
+
+	for (i = 0; i < MAXID; i++)
+		lastc[i] = 0;
+	copy = strdup(content);
+	line = strtok_r(copy, "\n", &save);
+	while (line) {
+		long long ts;
+		int id;
+		char *msg = NULL;
+		long long dl;
+
+		if (tf_parse_line(line, &ts, &id, &msg) == -1) {
+			fail = 1;
+			line = strtok_r(NULL, "\n", &save);
+			continue;
+		}
+		if (!strcmp(msg, "burned out"))
+			break;
+		if (id >= 1 && id < MAXID) {
+			dl = lastc[id] + burnout;
+			if (ts > dl)
+				fail = 1;
+			if (!strcmp(msg, "is compiling"))
+				lastc[id] = ts;
+		}
+		line = strtok_r(NULL, "\n", &save);
+	}
+	free(copy);
+	return fail;
 }
 
 /* ========================================================= run_viable === */
