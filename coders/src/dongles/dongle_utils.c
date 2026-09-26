@@ -52,9 +52,14 @@ long long	compute_key(t_coder *me, t_dongle *d)
 	return (deadline);
 }
 
+void	wait_pls(t_sim *sim)
+{
+	while (!sim_stopped(sim))
+		smart_sleep(COND_POLL_MS, sim);
+}
+
 void	handle_only_dongle(t_coder *me, t_dongle *only)
 {
 	take_dongle(me, only);
-	log_state(me->sim, me->id, "burned out");
-	sim_stop(me->sim);
+	wait_pls(me->sim);
 }
